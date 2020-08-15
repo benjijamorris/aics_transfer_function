@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
 
-"""Unit test package for aics_transfer_function."""
+"""Unit test package for image_classifier_3d."""

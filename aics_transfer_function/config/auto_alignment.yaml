@@ -1,0 +1,84 @@
+# basic parameters
+name              : 20to100        # job name: 20to100:super-resolution; denoise:
+tag               : URAz
+model             : stn        # chooses which model to use. [cycle_gan | pix2pix ]')
+gpu_ids           : 0              # gpu ids: e.g. 0 0,1,2, 0,2. use -1 for CPU
+fpath1            : /allen/aics/assay-dev/computational/data/transfer_function_feasibility/training/H2B_20x_100x/source_domain/aligned_source/  #path for domain A
+fpath2            : /allen/aics/assay-dev/computational/data/transfer_function_feasibility/training/H2B_20x_100x/target_domain/aligned_target/  #path for domain B
+train_num         : 50             #training file number
+resizeA           : toB            #='[ratio|toB|iso]'
+size_in           : 32,256,256     # patch size (z_depth,y_height,x_width)
+sample_mode       : none           #='[shuffle|shift|none]')
+datarange_11      : True           #set data range [-1,1] (default:[0,1]), useful when load pre-trained model')
+continue_from     : /allen/aics/assay-dev/computational/data/transfer_function_feasibility/training/H2B_20x_100x/training_result/0114_1217_10b8_20to100_URAz_0136ae/checkpoints/20to100
+epoch             : latest         # which epoch to load? set to latest to use latest cached model
+load_iter         : -1 #28000              # which iteration to load? if load_iter > 0, the code will load models by iter_[load_iter]; otherwise, the code will load models by [epoch]
+seed              : 42
+norm_factor       : 3.5 15        # normalization factor for the image
+
+#network
+netD              : n_layers       #='specify discriminator architecture [basic | n_layers | pixel]. The basic model is a 70x70 PatchGAN. n_layers allows you to specify the layers in the discriminator')
+netG              : unet_256       #='specify generator architecture [resnet_9blocks | resnet_6blocks | unet_256 | unet_128]')
+results_folder    : /allen/aics/assay-dev/computational/data/transfer_function_feasibility/training/H2B_20x_100x/training_result/aligned_final/    #models are saved here
+input_nc          : 1              #='# of input image channels: 3 for RGB and 1 for grayscale')
+output_nc         : 1              #='# of output image channels: 3 for RGB and 1 for grayscale')
+ngf               : 96             # # of gen filters in the last conv layer')
+edsr_n_blocks     : 16
+ndf               : 64             # # of discrim filters in the first conv layer')
+n_layers_D        : 3              #='only used if netD==n_layers'
+
+init_type         : normal         #='network initialization [normal | xavier | kaiming | orthogonal]'
+init_gain         : 0.02           #='scaling factor for normal, xavier and orthogonal.'
+no_dropout        : False          #='no dropout for the generator'
+direction         : AtoB           #='AtoB or BtoA'
+batch_size        : 1              #='input batch size'
+verbose           : False          #='if specified, print more debugging information')
+imgs_per_epoch    : 200            #
+patches_per_epoch : 1500           #
+
+# pix2pix
+norm              : batch          #='instance normalization or batch normalization [instance | batch | none]'
+pool_size         : 0              # the size of image buffer that stores previously generated images')
+gan_mode          : vanilla        # the type of GAN objective. [vanilla| lsgan | wgangp]. vanilla GAN loss is the cross-entropy objective used in the original GAN paper.')
+lambda_L1         : 100.0
+
+# stn
+# Common settings for both steps:
+stn_adjust_image          : False
+stn_apply_gaussian_blur   : False
+stn_progressive_adjust    : False
+stn_apply_threshold       : False
+stn_fix_stn_model         : True   
+stn_lambda_reg        : 0.1           # default: 0.1
+
+# Settings for step 1:
+# stn_first_stage           : 1       # number of digits "1" is the number of epochs for pretraining *GAN* model 
+# stn_loop_stage            : 12 # "2" for an epoch training *AutoALign* module. For this case, the training epoches are : 1,1,1,1,1,1,1,2,1,2,1,2,1,... 
+# stn_adjust_fixed_z        : False
+# readoffsetfrom            : /allen/aics/assay-dev/computational/data/transfer_function_feasibility/training/H2B_20x_100x/training_result/aligned_final/offsets.log 
+
+# # Settings for step 2:
+stn_first_stage           : 1
+stn_loop_stage            : 1 
+stn_adjust_fixed_z        : True
+readoffsetfrom            : /allen/aics/assay-dev/computational/data/transfer_function_feasibility/training/H2B_20x_100x/training_result/aligned_final/offset0/offsets.log
+align_all_axis            : True   # True if you want to align z,y,x axis. False if only align z axis.
+
+# for training only
+save_latest_freq  : 4000 # frequency of saving the latest results')
+save_epoch_freq   : 5 # frequency of saving checkpoints at the end of epochs')
+save_by_iter      : True # whether save the model by iteration
+print_freq        : 50  # frequency of showing training results on console
+epoch_count       : 1 # the starting epoch count, we save the model by <epoch_count>, <epoch_count>+<save_latest_freq>, ...')
+
+niter             : 100 # # of iter at starting learning rate')
+niter_decay       : 500 # # of iter to linearly decay learning rate to zero')
+beta1             : 0.5 # momentum term of adam')
+lr                : 0.00002 # initial learning rate for adam')
+lr_policy         : linear # learning rate policy. [linear | step | plateau | cosine]')
+lr_decay_iters    : 50 # multiply by a gamma every lr_decay_iters iterations')
+check_name        : False 
+
+# for test only
+testfile          : all
+output_path       : /allen/aics/assay-dev/computational/data/transfer_function_feasibility/validation/FBL_20x_100x/pred_100x/
