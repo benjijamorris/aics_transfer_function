@@ -3,24 +3,22 @@ import torch
 from collections import OrderedDict
 from abc import ABC, abstractmethod
 from . import networks
-import pdb
 
 
 class BaseModel(ABC):
-    """This class is an abstract base class (ABC) for models.
-    To create a subclass, you need to implement the following five functions:
-        -- <__init__>:                      initialize the class; first call BaseModel.__init__(self, opt).
-        -- <set_input>:                     unpack data from dataset and apply preprocessing.
-        -- <forward>:                       produce intermediate results.
-        -- <optimize_parameters>:           calculate losses, gradients, and update network weights.
-        -- <modify_commandline_options>:    (optionally) add model-specific options and set default options.
+    """
+    This class is an abstract base class (ABC) for models.
     """
 
     def __init__(self, opt):
-        """Initialize the BaseModel class.
+        """
+        Initialize the BaseModel class.
 
-        Parameters:
-            opt (Option class)-- stores all the experiment flags; needs to be a subclass of BaseOptions
+        Parameters
+        -----------------
+            opt: a subclass of BaseOptions
+                stores all the experiment flags; 
+                needs to be a subclass of BaseOptions
 
         When creating your custom class, you need to implement your own initialization.
         In this fucntion, you should first call <BaseModel.__init__(self, opt)>
@@ -44,19 +42,6 @@ class BaseModel(ABC):
         self.optimizers = []
         self.image_paths = []
         self.metric = 0  # used for learning rate policy 'plateau'
-
-    @staticmethod
-    def modify_commandline_options(parser, is_train):
-        """Add new model-specific options, and rewrite default values for existing options.
-
-        Parameters:
-            parser          -- original option parser
-            is_train (bool) -- whether training phase or test phase. You can use this flag to add training-specific or test-specific options.
-
-        Returns:
-            the modified parser.
-        """
-        return parser
 
     @abstractmethod
     def set_input(self, input):

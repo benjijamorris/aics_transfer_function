@@ -125,5 +125,7 @@ commits to the other branch instead of properly rebasing from what I can tell. Y
 should always rebase locally on the CLI until they fix it.
 
 
+The implementation of this repo was partially inspired by https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix. A few key functions were reused. 
+
 ***Free software: Allen Institute Software License***
 

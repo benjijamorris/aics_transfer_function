@@ -1,40 +1,63 @@
 # basic parameters
 name              : 20to100        # job name: 20to100:super-resolution; denoise:
 model             : pix2pix        # chooses which model to use. [cycle_gan | pix2pix ]')
-gpu_ids           : 0              # gpu ids: e.g. 0 0,1,2, 0,2. use -1 for CPU
-fpath1            : /allen/aics/assay-dev/computational/data/transfer_function_feasibility/training/H2B_20x_100x/source_domain/  #path for domain A
-fpath2            : /allen/aics/assay-dev/computational/data/transfer_function_feasibility/training/H2B_20x_100x/target_domain/  #path for domain B
-train_num         : 35             #training file number
-resizeA           : toB            #='[ratio|toB|iso]'
-ratio_param       : False          # ratio for (z,y,x) ex) 2,2,2 
-size_in           : 32,256,256     # patch size (z_depth,y_height,x_width)
-sample_mode       : none           #='[shuffle|shift|none]')
-datarange_11      : True           #set data range [-1,1] (default:[0,1]), useful when load pre-trained model')
+fpath_source      : /allen/aics/assay-dev/computational/data/transfer_function_feasibility/training/H2B_20x_100x/source_domain/  #path for domain A
+fpath_target      : /allen/aics/assay-dev/computational/data/transfer_function_feasibility/training/H2B_20x_100x/target_domain/  #path for domain B
+
+#? train_num         : 35             #training file number
+
+# model
 continue_from     : /allen/aics/assay-dev/computational/data/transfer_function_feasibility/training/H2B_20x_100x/training_result/1223_1537_10b8_20to100_URAz_95278c/checkpoints/20to100
 epoch             : latest         # which epoch to load? set to latest to use latest cached model
 load_iter         : -1             # which iteration to load? if load_iter > 0, the code will load models by iter_[load_iter]; otherwise, the code will load models by [epoch]
 seed              : 42
+
+# normalization
+datarange_11      : True           #set data range [-1,1] (default:[0,1]), useful when load pre-trained model')
 norm_factor       : 3.5 15         # normalization factor for the image. [min stretch max stretch] for source and target. Two assign different norm factor for source and target, [source_val source_val target_val target_val]
 
-#network
+# inference only
+testfile          : all
+output_path       : /allen/aics/assay-dev/computational/data/transfer_function_feasibility/temp/
+
+# sample
+size_in           : [32,256,256]     # patch size (z_depth,y_height,x_width)
+sample_mode       : none           #='[shuffle|shift|none]')
+batch_size        : 1              #='input batch size'
+imgs_per_epoch    : 200            #
+patches_per_epoch : 1500           #
+check_name        : False 
+
+# debug 
+verbose           : False          #='if specified, print more debugging information')
+save_latest_freq  : 4000 # frequency of saving the latest results')
+save_epoch_freq   : 5 # frequency of saving checkpoints at the end of epochs')
+save_by_iter      : True # whether save the model by iteration
+print_freq        : 50  # frequency of showing training results on console
+epoch_count       : 1 # the starting epoch count, we save the model by <epoch_count>, <epoch_count>+<save_latest_freq>, ...')
+save_training_inspections: False # Save real A,B and fake images for every print_freq
+
+
+# saving 
+results_folder    : /allen/aics/assay-dev/users/Hyeonwoo/data/demo_result/    #models are saved here
+
+# network
 netD              : n_layers       #='specify discriminator architecture [basic | n_layers | pixel]. The basic model is a 70x70 PatchGAN. n_layers allows you to specify the layers in the discriminator')
 netG              : unet_256       #='specify generator architecture [resnet_9blocks | resnet_6blocks | unet_256 | unet_128]')
-results_folder    : /allen/aics/assay-dev/users/Hyeonwoo/data/demo_result/    #models are saved here
 input_nc          : 1              #='# of input image channels: 3 for RGB and 1 for grayscale')
 output_nc         : 1              #='# of output image channels: 3 for RGB and 1 for grayscale')
 ngf               : 96             # # of gen filters in the last conv layer')
 edsr_n_blocks     : 16
 ndf               : 64             # # of discrim filters in the first conv layer')
 n_layers_D        : 3              #='only used if netD==n_layers'
+no_dropout        : False          #='no dropout for the generator'
 
+# training 
 init_type         : normal         #='network initialization [normal | xavier | kaiming | orthogonal]'
 init_gain         : 0.02           #='scaling factor for normal, xavier and orthogonal.'
-no_dropout        : False          #='no dropout for the generator'
-direction         : AtoB           #='AtoB or BtoA'
-batch_size        : 1              #='input batch size'
-verbose           : False          #='if specified, print more debugging information')
-imgs_per_epoch    : 200            #
-patches_per_epoch : 1500           #
+
+#? direction         : AtoB           #='AtoB or BtoA'
+
 
 # pix2pix
 norm              : batch          #='instance normalization or batch normalization [instance | batch | none]'
@@ -43,11 +66,6 @@ gan_mode          : vanilla        # the type of GAN objective. [vanilla| lsgan 
 lambda_L1         : 1000.0
 
 # for training only
-save_latest_freq  : 4000 # frequency of saving the latest results')
-save_epoch_freq   : 5 # frequency of saving checkpoints at the end of epochs')
-save_by_iter      : True # whether save the model by iteration
-print_freq        : 50  # frequency of showing training results on console
-epoch_count       : 1 # the starting epoch count, we save the model by <epoch_count>, <epoch_count>+<save_latest_freq>, ...')
 
 niter             : 100 # # of iter at starting learning rate')
 niter_decay       : 500 # # of iter to linearly decay learning rate to zero')
@@ -55,10 +73,7 @@ beta1             : 0.5 # momentum term of adam')
 lr                : 0.00002 # initial learning rate for adam')
 lr_policy         : linear # learning rate policy. [linear | step | plateau | cosine]')
 lr_decay_iters    : 50 # multiply by a gamma every lr_decay_iters iterations')
-check_name        : False 
 
-save_training_inspections: False # Save real A,B and fake images for every print_freq
 
-# for test only
-testfile          : all
-output_path       : /allen/aics/assay-dev/computational/data/transfer_function_feasibility/temp/
+
+

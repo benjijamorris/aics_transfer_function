@@ -8,8 +8,6 @@ import numpy as np
 import pdb
 import torch.nn.functional as F
 import time
-from transfer_function.models.unet_iso import UnetGenerator_upiso, UnetGenerator_downiso
-
 
 ###############################################################################
 # Helper Functions
@@ -166,10 +164,6 @@ def define_G(input_nc, output_nc, ngf, netG, norm='batch', use_dropout=False, in
         net = UnetGenerator(input_nc, output_nc, 7, ngf, norm_layer=norm_layer, use_dropout=use_dropout,unet_upsampling=unet_upsampling)
     elif netG == 'unet_256':
         net = UnetGenerator(input_nc, output_nc, 8, ngf, norm_layer=norm_layer, use_dropout=use_dropout,unet_upsampling=unet_upsampling)
-    elif netG == 'unet_128_upiso':
-        net = UnetGenerator_upiso(input_nc, output_nc, 7, ngf, norm_layer=norm_layer, use_dropout=use_dropout,unet_upsampling=unet_upsampling)
-    elif netG == 'unet_256_downiso':
-        net = UnetGenerator_downiso(input_nc, output_nc, 6, ngf, norm_layer=norm_layer, use_dropout=use_dropout,unet_upsampling=unet_upsampling)
     elif netG == 'unet_512_nopad':  # (32,512,512) --> (28,152,152)
         net = UnetGeneratorNopad(input_nc, output_nc, 7, ngf, norm_layer=norm_layer, use_dropout=use_dropout,unet_upsampling=unet_upsampling)
     else:

@@ -70,7 +70,8 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
     ],
-    description="Python package for building 3d computational transfer function models for light microscopy images",
+    description="Python package for building 3d computational \
+        transfer function models for light microscopy images",
     entry_points={
         "console_scripts": [
             "my_example=aics_transfer_function.bin.my_example:main"

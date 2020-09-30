@@ -72,7 +72,6 @@ class cyclelargenopadDataset(Dataset):
         struct_img[struct_img > strech_max] = strech_max
         struct_img[struct_img < strech_min] = strech_min
         struct_img = (struct_img - strech_min + 1e-8)/(strech_max - strech_min + 1e-8)
-        # struct_img = struct_img * 2.0 - 1.0             # commented on 1300 July/08/2019. The datarange will change from [-1,1] to [0,1]. --continue_train will be affected
         return struct_img.astype('float32')
 
     def load_from_file(self, filenamesA, filenamesB, num_patch):
