@@ -9,10 +9,9 @@ def find_model_using_name(model_name):
     model_filename = "aics_transfer_function.models." + model_name + "_model"
     modellib = importlib.import_module(model_filename)
     model = None
-    target_model_name = model_name.replace('_', '') + 'model'
+    target_model_name = model_name.replace("_", "") + "model"
     for name, cls in modellib.__dict__.items():
-        if name.lower() == target_model_name.lower() \
-           and issubclass(cls, BaseModel):
+        if name.lower() == target_model_name.lower() and issubclass(cls, BaseModel):
             model = cls
 
     if model is None:
@@ -29,5 +28,5 @@ def create_model(options):
         >>> from models import create_model
         >>> model = create_model(opt)
     """
-    model = find_model_using_name(options.model)
+    model = find_model_using_name(options.network["model"])
     return model(options)

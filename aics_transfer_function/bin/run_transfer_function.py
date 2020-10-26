@@ -15,7 +15,7 @@ from aics_transfer_function.proj_tester import ProjectTester
 
 # Global object
 TRAIN_MODE = "train"
-VALID_MODE = "validate"
+VALID_MODE = "validation"
 INFER_MODE = "inference"
 
 ###############################################################################
@@ -35,15 +35,25 @@ class Args(argparse.Namespace):
         self.__parse()
 
     def __parse(self):
-        p = argparse.ArgumentParser(description="runner for training a new model",)
-        p.add_argument(
-            "--debug", action="store_true", dest="debug", help=argparse.SUPPRESS,
+        p = argparse.ArgumentParser(
+            description="runner for training a new model",
         )
         p.add_argument(
-            "--config", dest="filename", help="path to configuration file"
+            "--debug",
+            action="store_true",
+            dest="debug",
+            help=argparse.SUPPRESS,
         )
         p.add_argument(
-            "--mode", help="the type of operation: train, validation, inference"
+            "--config",
+            dest="filename",
+            required=True,
+            help="path to configuration file",
+        )
+        p.add_argument(
+            "--mode",
+            required=True,
+            help="the type of operation: train, validation, inference",
         )
 
         p.parse_args(namespace=self)
@@ -58,19 +68,19 @@ def main():
         dbg = args.debug
 
         # check gpu option
-        assert torch.cuda.is_available(), f"GPU is not available."
-        torch.cuda.set_device(torch.device('cuda:0'))
+        assert torch.cuda.is_available(), "GPU is not available."
+        torch.cuda.set_device(torch.device("cuda:0"))
 
         if args.mode == TRAIN_MODE or args.mode.lower() == TRAIN_MODE:
-            opt = BaseOptions(args.filename, isTrain=True).parse()
+            opt = BaseOptions(args.filename, TRAIN_MODE).parse()
             exe = ProjectTrainer(opt)
             exe.run_trainer()
         elif args.mode == VALID_MODE or args.mode.lower() == VALID_MODE:
-            opt = BaseOptions(args.filename, isTrain=False).parse()
+            opt = BaseOptions(args.filename, VALID_MODE).parse()
             exe = ProjectTester(opt)
             exe.run_validation()
         elif args.mode == INFER_MODE or args.mode.lower() == INFER_MODE:
-            opt = BaseOptions(args.filename, isTrain=False).parse()
+            opt = BaseOptions(args.filename, INFER_MODE).parse()
             exe = ProjectTester(opt)
             exe.run_inference()
         else:

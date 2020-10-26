@@ -1,70 +1,58 @@
 # basic parameters
-name              : 20to100        # job name: give any string to to name the expriement
-fpath_source      : /allen/aics/assay-dev/computational/data/transfer_function_feasibility/training/H2B_20x_100x/source_domain/  #path for domain A
-fpath_target      : /allen/aics/assay-dev/computational/data/transfer_function_feasibility/training/H2B_20x_100x/target_domain/  #path for domain B
+name      : 20to100         # job name: give any string to to name the expriement
+seed      : 42              # seed for reproducibility 
+verbose   : False           # 'if specified, print debug information before running
+debug     : False           # whether to use debug mode
 
-# how to do image normalization
-norm_factor_source:         # normalization factor for the source image
-    method: dynamic         
-    value: 3.5, 15
-norm_factor_target:         # normalization factor for the source image
-    method: dynamic         
-    value: 3.5, 15
+datapath:
+  source  : /allen/aics/assay-dev/users/Jianxu/data/TF_demo_test/source/
+  target  : /allen/aics/assay-dev/users/Jianxu/data/TF_demo_test/target/
 
-# continue training from one existing model?
-continue_from     : /allen/aics/assay-dev/computational/data/transfer_function_feasibility/training/H2B_20x_100x/training_result/1223_1537_10b8_20to100_URAz_95278c/checkpoints/20to100
-epoch             : latest         # which epoch to load? set to latest to use latest cached model
+normalization:
+  source:
+    method: simple_norm
+    params: ("middle_otsu", 1.0, 15.5)
+  target:
+    method: simple_norm
+    params: ("middle_otsu", 1.0, 19.5)
 
-# sample
-size_in           : [32,256,256]     # patch size (z_depth,y_height,x_width)
-imgs_per_epoch    : 200            #
-patches_per_epoch : 1500           #
-sample_mode       : none           # TODO, CHECK if realy need  '[shuffle|shift|none]')
+load_trained_model:
+  path        : /allen/aics/assay-dev/computational/data/transfer_function_feasibility/data_for_paper/FBL_20x_100x/training_result_paper/0627_2246_10b8_20to100_URAz_955983/checkpoints/20to100 
+  epoch       : latest # which epoch to load? set to latest to use latest cached model
+  load_iter   : -1             # which iteration to load? if load_iter > 0, the code will load models by iter_[load_iter]; otherwise, the code will load models by [epoch]
 
-# model saving
-results_folder    : /allen/aics/assay-dev/users/Hyeonwoo/data/demo_result/    #models are saved here
-save_training_inspections: False # Save real A,B and fake images for every print_freq
-save_latest_freq  : 4000 # frequency of saving the latest results')
-save_epoch_freq   : 5 # frequency of saving checkpoints at the end of epochs')
-save_by_iter      : True # whether save the model by iteration
-print_freq        : 50  # frequency of showing training results on console
-epoch_count       : 1 # the starting epoch count, we save the model by <epoch_count>, <epoch_count>+<save_latest_freq>, ...')
+network:
+  model       : pix2pix        # chooses which model to use, only "pix2pix" for now.
+  netD        : n_layers       # 'specify discriminator architecture [basic | n_layers | pixel]. The basic model is a 70x70 PatchGAN. n_layers allows you to specify the layers in the discriminator')
+  netG        : unet_256       # 'specify generator architecture [resnet_9blocks | resnet_6blocks | unet_256 | unet_128]')
+  input_nc    : 1              # 'number of input image channels: 3 for RGB and 1 for grayscale')
+  output_nc   : 1              # 'number of output image channels: 3 for RGB and 1 for grayscale')
+  ngf         : 96             # number of gen filters in the last conv layer')
+  ndf         : 64             # number of discrim filters in the first conv layer')
+  n_layers_D  : 3              # 'only used if netD==n_layers'
+  no_dropout  : False          # 'no dropout for the generator'
+  norm        : batch          # 'instance normalization or batch normalization [instance | batch]'
+  gan_mode    : vanilla        # the type of GAN objective. [vanilla| lsgan | wgangp]. vanilla GAN loss is the cross-entropy objective used in the original GAN paper.')
+  lambda_L1   : 1000.0
+  init_type   : normal         # 'network initialization [normal | xavier | kaiming | orthogonal]'
+  init_gain   : 0.02           # 'scaling factor for normal, xavier and orthogonal.'
+  input_patch_size  : [32,256,256]  # patch size (z_depth,y_height,x_width)
+  batch_size        : 1       # number of images training simultaneously in one iteration, 1 is preferred as default
 
-# network definition
-netD              : n_layers       #='specify discriminator architecture [basic | n_layers | pixel]. The basic model is a 70x70 PatchGAN. n_layers allows you to specify the layers in the discriminator')
-netG              : unet_256       #='specify generator architecture [resnet_9blocks | resnet_6blocks | unet_256 | unet_128]')
-input_nc          : 1              #='# of input image channels: 3 for RGB and 1 for grayscale')
-output_nc         : 1              #='# of output image channels: 3 for RGB and 1 for grayscale')
-ngf               : 96             # # of gen filters in the last conv layer')
-edsr_n_blocks     : 16
-ndf               : 64             # # of discrim filters in the first conv layer')
-n_layers_D        : 3              #='only used if netD==n_layers'
-no_dropout        : False          #='no dropout for the generator'
-
-# training hyperparameter
-niter             : 100 # number of iter using the starting learning rate
-niter_decay       : 500 # number of iter to linearly decay learning rate to zero
-beta1             : 0.5 # momentum term of adam')
-lr                : 0.00002 # initial learning rate for adam')
-lr_policy         : linear # learning rate policy: linear | step | plateau | cosine
-lr_decay_iters    : 50 # multiply by a gamma every lr_decay_iters iterations')
-
-# pix2pix
-norm              : batch          #='instance normalization or batch normalization [instance | batch | none]'
-pool_size         : 0              # the size of image buffer that stores previously generated images')
-gan_mode          : vanilla        # the type of GAN objective. [vanilla| lsgan | wgangp]. vanilla GAN loss is the cross-entropy objective used in the original GAN paper.')
-lambda_L1         : 1000.0
+training_setting:
+  imgs_per_epoch    : -1      # how many images to use? -1 means all
+  patches_per_epoch : 50    # a positive integer or -1 (all overlapping patches), 1500 
+  niter             : 100     # number of iter using the starting learning rate
+  niter_decay       : 500     # number of iter to linearly decay learning rate to zero
+  beta1             : 0.5     # momentum term of adam')
+  lr                : 0.00002 # initial learning rate for adam')
+  lr_policy         : linear  # learning rate policy: linear | step | plateau | cosine
+  lr_decay_iters    : 50      # multiply by a gamma every lr_decay_iters iterations')
 
 
-##############################################################################
-# parameters no need to change for users, reserved for advanced users for R&D
-##############################################################################
-model             : pix2pix        # chooses which model to use, only "pix2pix" for now.
-datarange_11      : True           # True: normalize intensity into range [-1,1] (default:[0,1])
-load_iter         : -1             # which iteration to load? if load_iter > 0, the code will load models by iter_[load_iter]; otherwise, the code will load models by [epoch]
-seed              : 42             # seed for reproducibility 
-batch_size        : 1              # number of images training simultaneously in one iteration, 1 is preferred as default
-verbose           : False          # 'if specified, print debug information before running
-# model initialization
-init_type         : normal         #='network initialization [normal | xavier | kaiming | orthogonal]'
-init_gain         : 0.02           #='scaling factor for normal, xavier and orthogonal.'
+save:
+  results_folder    : /allen/aics/assay-dev/users/Jianxu/data/TF_demo_test/    #models are saved here
+  save_training_inspections: True # Save real A,B and fake images for every print_freq
+  save_latest_freq  : 4000 # frequency of saving the latest results')
+  save_epoch_freq   : 5 # frequency of saving checkpoints at the end of epochs')
+  print_freq        : 50  # frequency of showing training results on console

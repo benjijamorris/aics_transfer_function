@@ -47,6 +47,9 @@ requirements = [
     'tqdm',
     'scipy',
     'PyYAML',
+    'gitpython',
+    'aicsimageprocessing',
+    'munch',
 ]
 
 extra_requirements = {
@@ -74,7 +77,7 @@ setup(
         transfer function models for light microscopy images",
     entry_points={
         "console_scripts": [
-            "my_example=aics_transfer_function.bin.my_example:main"
+            "TF_run=aics_transfer_function.bin.run_transfer_function:main"
         ],
     },
     install_requires=requirements,
