@@ -52,6 +52,67 @@ class cyclelargeDataset(Dataset):
             self.target_norm = getattr(norm_module, func_name_tar)
             self.target_norm_param = self.opt["normalization"]["target"]["params"]
 
+    def load_array(self, src_img, norm_array: bool = False):
+        self.imgA = []
+        self.imgB = []
+        self.imgA_path = []
+        self.imgA_short_path = []
+        self.imgB_path = []
+
+        self.filenamesA = ["array"]
+
+        # TODO: check AA code
+        # True if this patch is to be used for calculating mean offset for AutoAlign
+        self.for_calc_ave_offset = []
+
+        if not norm_array:
+            src_img = self.source_norm(src_img, bulk_params=self.source_norm_param)
+            r = self.opt.normalization["source"]["ratio_param"]
+            nz = int(np.round(src_img.shape[0] * r[0]))
+            ny = int(np.round(src_img.shape[1] * r[1]))
+            nx = int(np.round(src_img.shape[2] * r[2]))
+            new_size = (nz, ny, nx)
+            src_img = resize_to(src_img, new_size, method="bilinear")
+        else:
+            new_size = src_img.shape
+
+        overlap_step = 0.5
+        self.positionA = [
+            new_size,
+        ]
+        px_list, py_list, pz_list = [], [], []
+        px, py, pz = 0, 0, 0
+        while px < new_size[2] - self.size_in[2]:
+            px_list.append(px)
+            px += int(self.size_in[2] * overlap_step)
+        px_list.append(new_size[2] - self.size_in[2])
+        while py < new_size[1] - self.size_in[1]:
+            py_list.append(py)
+            py += int(self.size_in[1] * overlap_step)
+        py_list.append(new_size[1] - self.size_in[1])
+        while pz < new_size[0] - self.size_in[0]:
+            pz_list.append(pz)
+            pz += int(self.size_in[0] * overlap_step)
+        pz_list.append(new_size[0] - self.size_in[0])
+        for pz_in in pz_list:
+            for py_in in py_list:
+                for px_in in px_list:
+                    (self.imgA).append(
+                        np.expand_dims(
+                            src_img[
+                                pz_in : pz_in + self.size_in[0],
+                                py_in : py_in + self.size_in[1],
+                                px_in : px_in + self.size_in[2],
+                            ],
+                            axis=0,
+                        )
+                    )
+                    (self.imgA_path).append("default")
+                    (self.imgA_short_path).append("default_short")
+
+                    self.positionA.append((pz_in, py_in, px_in))
+                    self.for_calc_ave_offset.append(False)
+
     def load_from_file(self, filenamesA, filenamesB=None, num_patch=-1):
         # assumption: transfer is from A to B
         self.imgA = []

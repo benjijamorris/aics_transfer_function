@@ -50,6 +50,7 @@ requirements = [
     'gitpython',
     'aicsimageprocessing',
     'munch',
+    'quilt3',
 ]
 
 extra_requirements = {

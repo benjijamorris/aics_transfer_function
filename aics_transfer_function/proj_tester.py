@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+import os
 import numpy as np
 import tifffile
 
@@ -10,6 +10,8 @@ from .util.misc import get_filenames
 
 
 def extract_filename(filename, replace=False, old_name="", rep_name=""):
+    """ extract the base name and reuse for output """
+
     filename_rev = filename[::-1]
     idx = filename_rev.index("/")
     new = filename_rev[0:idx][::-1]
@@ -19,6 +21,8 @@ def extract_filename(filename, replace=False, old_name="", rep_name=""):
 
 
 def arrange(opt, data, output, position):
+    """ take care of the sliding window application of the model """
+
     data = data[0, 0].cpu().numpy()
     za, ya, xa = position
     patch_size = data.shape
@@ -64,7 +68,8 @@ def arrange(opt, data, output, position):
 
 class ProjectTester(object):
     """
-    Main class for applying a trained transfer function model
+    Base class for applying a trained transfer function model for
+    validation or inference purpose
     """
 
     def __init__(self, opt):
@@ -80,19 +85,42 @@ class ProjectTester(object):
         model.setup(opt)  # regular setup: load and print networks
         self.model = model
 
-    def run_inference(self):
+    def run_inference(self, single_test_image: str = None, normalized: bool = False):
+        """
+        Main inference function, four different options are supported:
+        - use config only, specify one filename in "source"
+        - use config only, specify one folder in "source", all ".tif" and ".tiff"
+          in the folder will be processed
+        - pass in "single_test_image" as a filename
+        - pass in "single_test_image" as a numpy array. If "normalized" is True
+          the image will be directly processed, otherwise, the image will be
+          normalized first using the normalization method in config. Default is
+          "normalized" = False
+        """
 
-        filenamesA = get_filenames(self.opt.datapath["source"])
+        if single_test_image is not None:
+            filenamesA = [
+                single_test_image,
+            ]
+        elif os.path.isfile(self.opt.datapath["source"]):
+            filenamesA = [
+                self.opt.datapath["source"],
+            ]
+        else:
+            filenamesA = get_filenames(self.opt.datapath["source"])
         dataset = cyclelargeDataset(self.opt, aligned=True)
 
         self.opt.size_out = dataset.get_size_out()
 
         for fileA in filenamesA:
-            dataset.load_from_file(
-                [
-                    fileA,
-                ]
-            )
+            if isinstance(fileA, np.ndarray):
+                dataset.load_array(fileA, norm_array=normalized)
+            else:
+                dataset.load_from_file(
+                    [
+                        fileA,
+                    ]
+                )
             position = dataset.positionA
             rA = np.zeros(position[0]).astype("float32")
             fB = np.zeros(position[0]).astype("float32")
@@ -111,16 +139,21 @@ class ProjectTester(object):
                     arrange(self.opt, rA_i, rA, position[i + 1])
                     arrange(self.opt, fB_i, fB, position[i + 1])
 
-            ###########################################################################
-            # Temp saving script
-            filename_ori = extract_filename(
-                fileA, replace=True, old_name="source.tif", rep_name="pred.tiff"
-            )
-            tif = tifffile.TiffWriter(self.opt.output_path / filename_ori, bigtiff=True)
-            tif.save(fB, compress=9, photometric="minisblack", metadata=None)
-            tif.close()
-            print(filename_ori + " saved")
-            ###########################################################################
+            if single_test_image is not None:
+                return fB
+            else:
+                ########################################################################
+                # Temp saving script
+                filename_ori = extract_filename(
+                    fileA, replace=True, old_name="source.tif", rep_name="pred.tiff"
+                )
+                tif = tifffile.TiffWriter(
+                    self.opt.output_path / filename_ori, bigtiff=True
+                )
+                tif.save(fB, compress=9, photometric="minisblack", metadata=None)
+                tif.close()
+                print(filename_ori + " saved")
+                ########################################################################
 
     def run_validation(self):
 

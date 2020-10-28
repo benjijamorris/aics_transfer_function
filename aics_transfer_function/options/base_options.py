@@ -1,10 +1,13 @@
 import os
 from pathlib import Path
+from typing import Union
 import shutil
 import yaml
 import datetime
 import git
 from munch import Munch
+
+from aics_transfer_function.util.quilt_utils import QuiltModelZoo
 
 
 class BaseOptions:
@@ -18,7 +21,7 @@ class BaseOptions:
 
     def get_job_name(self, name: str = "TF"):
         """
-        Generate a unique name for this experiment
+        Generate a unique name for this training experiment
 
         Parameters
         -----------
@@ -53,16 +56,31 @@ class BaseOptions:
         message += "\n----------------- End -------------------\n"
         print(message)
 
-    def parse(self):
+    def parse(self, local_dir: Union[str, Path] = "./"):
         """
         parse the option arguments and fill with default values when missing
         """
 
-        with open(self.config_file, "r") as stream:
+        # check if the configuration is local or needs to be pulled from quilt
+        if not os.path.exists(self.config_file):
+            # pull from quilt
+            config_path = Path(local_dir) / f"{self.config_file}.yaml"
+            zoo_client = QuiltModelZoo()
+            zoo_client.download_model(self.config_file, config_path)
+        else:
+            config_path = self.config_file
+
+        with open(config_path, "r") as stream:
             opt_dict = yaml.load(stream)
 
         # convert dictionary to attribute-like object
         opt = Munch(opt_dict)
+
+        # validate the existence of the model
+        if not os.path.exists(opt.load_trained_model["path"]):
+            model_path = Path(local_dir) / Path(self.config_file) / "latest.pth"
+            zoo_client.download_model(opt.load_trained_model["path"], model_path)
+            opt.load_trained_model["path"] = str(model_path)
 
         # load and validation training config
         if self.running_mode.lower() == "train":
@@ -81,7 +99,7 @@ class BaseOptions:
                 os.mkdir(opt.sample_dir)
 
             # copy the config file into the job directory
-            shutil.copy(self.config_file, opt.resultroot)
+            shutil.copy(config_path, opt.resultroot)
 
             # default vaue for train_num
             opt.training_setting["train_num"] = -1
@@ -101,7 +119,7 @@ class BaseOptions:
                 opt.output_path.mkdir(parent=True)
 
             # copy the config file into the prediction directory
-            shutil.copy(self.config_file, opt.output_path)
+            shutil.copy(config_path, opt.output_path)
 
             # determine how to resize source image
             opt.resizeA = "toB"
@@ -115,7 +133,7 @@ class BaseOptions:
                 opt.output_path.mkdir(parent=True)
 
             # copy the config file into the prediction directory
-            shutil.copy(self.config_file, opt.output_path)
+            shutil.copy(config_path, opt.output_path)
 
             # determine how to resize source image
             opt.resizeA = "ratio"
