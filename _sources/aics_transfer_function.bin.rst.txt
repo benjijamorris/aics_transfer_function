@@ -1,0 +1,22 @@
+aics\_transfer\_function.bin package
+====================================
+
+Submodules
+----------
+
+aics\_transfer\_function.bin.run\_transfer\_function module
+-----------------------------------------------------------
+
+.. automodule:: aics_transfer_function.bin.run_transfer_function
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: aics_transfer_function.bin
+   :members:
+   :undoc-members:
+   :show-inheritance:

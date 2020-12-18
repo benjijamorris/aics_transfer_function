@@ -1,0 +1,22 @@
+aics\_transfer\_function.dataloader package
+===========================================
+
+Submodules
+----------
+
+aics\_transfer\_function.dataloader.cyclelarge\_dataset module
+--------------------------------------------------------------
+
+.. automodule:: aics_transfer_function.dataloader.cyclelarge_dataset
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: aics_transfer_function.dataloader
+   :members:
+   :undoc-members:
+   :show-inheritance:

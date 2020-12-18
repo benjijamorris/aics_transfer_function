@@ -1,0 +1,316 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>aics_transfer_function.util package &mdash; AICS Transfer Function 0.1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Contributing" href="contributing.html" />
+    <link rel="prev" title="aics_transfer_function.options package" href="aics_transfer_function.options.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> AICS Transfer Function
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#stable-release">Stable release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#from-sources">From sources</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Package modules</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="aics_transfer_function.html">aics_transfer_function package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="aics_transfer_function.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="aics_transfer_function.bin.html">aics_transfer_function.bin package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aics_transfer_function.dataloader.html">aics_transfer_function.dataloader package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aics_transfer_function.models.html">aics_transfer_function.models package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="aics_transfer_function.options.html">aics_transfer_function.options package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">aics_transfer_function.util package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="aics_transfer_function.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aics_transfer_function.html#aics-transfer-function-proj-tester-module">aics_transfer_function.proj_tester module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aics_transfer_function.html#aics-transfer-function-proj-trainer-module">aics_transfer_function.proj_trainer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aics_transfer_function.html#module-aics_transfer_function">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#get-started">Get Started!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#deploying">Deploying</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="math.html">Math notation example</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AICS Transfer Function</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">aics_transfer_function</a> &raquo;</li>
+        
+          <li><a href="aics_transfer_function.html">aics_transfer_function package</a> &raquo;</li>
+        
+      <li>aics_transfer_function.util package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/aics_transfer_function.util.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <div class="rst-breadcrumbs-buttons" role="navigation" aria-label="breadcrumb navigation">
+      
+        <a href="contributing.html" class="btn btn-neutral float-right" title="Contributing" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="aics_transfer_function.options.html" class="btn btn-neutral float-left" title="aics_transfer_function.options package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+  </div>
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="aics-transfer-function-util-package">
+<h1>aics_transfer_function.util package<a class="headerlink" href="#aics-transfer-function-util-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-aics_transfer_function.util.misc">
+<span id="aics-transfer-function-util-misc-module"></span><h2>aics_transfer_function.util.misc module<a class="headerlink" href="#module-aics_transfer_function.util.misc" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="aics_transfer_function.util.misc.get_filenames">
+<code class="sig-prename descclassname">aics_transfer_function.util.misc.</code><code class="sig-name descname">get_filenames</code><span class="sig-paren">(</span><em class="sig-param">p1</em>, <em class="sig-param">p2=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aics_transfer_function/util/misc.html#get_filenames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aics_transfer_function.util.misc.get_filenames" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="aics_transfer_function.util.misc.save_stn">
+<code class="sig-prename descclassname">aics_transfer_function.util.misc.</code><code class="sig-name descname">save_stn</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">img</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aics_transfer_function/util/misc.html#save_stn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aics_transfer_function.util.misc.save_stn" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="aics_transfer_function.util.misc.save_tensor">
+<code class="sig-prename descclassname">aics_transfer_function.util.misc.</code><code class="sig-name descname">save_tensor</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aics_transfer_function/util/misc.html#save_tensor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aics_transfer_function.util.misc.save_tensor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-aics_transfer_function.util.preprocessing">
+<span id="aics-transfer-function-util-preprocessing-module"></span><h2>aics_transfer_function.util.preprocessing module<a class="headerlink" href="#module-aics_transfer_function.util.preprocessing" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="aics_transfer_function.util.preprocessing.simple_norm">
+<code class="sig-prename descclassname">aics_transfer_function.util.preprocessing.</code><code class="sig-name descname">simple_norm</code><span class="sig-paren">(</span><em class="sig-param">struct_img0: numpy.ndarray, stat_method: str = 'middle_otsu', scaling_param: Tuple[float, float] = (1, 1), out_range: Tuple[float, float] = (-1.0, 1.0), bulk_params: Optional[Tuple[str, float, float, Optional[float], Optional[float]]] = None, inplace: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aics_transfer_function/util/preprocessing.html#simple_norm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aics_transfer_function.util.preprocessing.simple_norm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-aics_transfer_function.util.quilt_utils">
+<span id="aics-transfer-function-util-quilt-utils-module"></span><h2>aics_transfer_function.util.quilt_utils module<a class="headerlink" href="#module-aics_transfer_function.util.quilt_utils" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="aics_transfer_function.util.quilt_utils.QuiltModelZoo">
+<em class="property">class </em><code class="sig-prename descclassname">aics_transfer_function.util.quilt_utils.</code><code class="sig-name descname">QuiltModelZoo</code><a class="reference internal" href="_modules/aics_transfer_function/util/quilt_utils.html#QuiltModelZoo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aics_transfer_function.util.quilt_utils.QuiltModelZoo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>connect to model zoo on quilt3</p>
+<dl class="method">
+<dt id="aics_transfer_function.util.quilt_utils.QuiltModelZoo.download_model">
+<code class="sig-name descname">download_model</code><span class="sig-paren">(</span><em class="sig-param">model_name: str</em>, <em class="sig-param">save_path: Union[str</em>, <em class="sig-param">pathlib.Path] = './zoo/model.pth'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aics_transfer_function/util/quilt_utils.html#QuiltModelZoo.download_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aics_transfer_function.util.quilt_utils.QuiltModelZoo.download_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>download the model “model_name” to “out_path”</p>
+<p>Paremeters
+—
+model_name: str</p>
+<blockquote>
+<div><p>the name of the model to be downloaded</p>
+</div></blockquote>
+<dl class="simple">
+<dt>save_path: Union(str, Path)</dt><dd><p>the path to save the model, default is ‘./zoo/model.pth’</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="aics_transfer_function.util.quilt_utils.QuiltModelZoo.peak_all_models">
+<code class="sig-name descname">peak_all_models</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<a class="reference internal" href="_modules/aics_transfer_function/util/quilt_utils.html#QuiltModelZoo.peak_all_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aics_transfer_function.util.quilt_utils.QuiltModelZoo.peak_all_models" title="Permalink to this definition">¶</a></dt>
+<dd><p>print out names of existing models in the model zoo</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-aics_transfer_function.util">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-aics_transfer_function.util" title="Permalink to this headline">¶</a></h2>
+<p>This package includes a miscellaneous collection of useful helper functions.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Jianxu Chen
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

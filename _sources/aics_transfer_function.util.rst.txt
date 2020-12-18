@@ -1,0 +1,38 @@
+aics\_transfer\_function.util package
+=====================================
+
+Submodules
+----------
+
+aics\_transfer\_function.util.misc module
+-----------------------------------------
+
+.. automodule:: aics_transfer_function.util.misc
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+aics\_transfer\_function.util.preprocessing module
+--------------------------------------------------
+
+.. automodule:: aics_transfer_function.util.preprocessing
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+aics\_transfer\_function.util.quilt\_utils module
+-------------------------------------------------
+
+.. automodule:: aics_transfer_function.util.quilt_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: aics_transfer_function.util
+   :members:
+   :undoc-members:
+   :show-inheritance:

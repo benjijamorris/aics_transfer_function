@@ -1,0 +1,384 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>aics_transfer_function.options.base_options &mdash; AICS Transfer Function 0.1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> AICS Transfer Function
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#stable-release">Stable release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#from-sources">From sources</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">Package modules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../aics_transfer_function.html">aics_transfer_function package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../aics_transfer_function.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../aics_transfer_function.bin.html">aics_transfer_function.bin package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../aics_transfer_function.dataloader.html">aics_transfer_function.dataloader package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../aics_transfer_function.models.html">aics_transfer_function.models package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../aics_transfer_function.options.html">aics_transfer_function.options package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../aics_transfer_function.util.html">aics_transfer_function.util package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../aics_transfer_function.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../aics_transfer_function.html#aics-transfer-function-proj-tester-module">aics_transfer_function.proj_tester module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../aics_transfer_function.html#aics-transfer-function-proj-trainer-module">aics_transfer_function.proj_trainer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../aics_transfer_function.html#module-aics_transfer_function">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#get-started">Get Started!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#deploying">Deploying</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../math.html">Math notation example</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">AICS Transfer Function</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../../aics_transfer_function.html">aics_transfer_function</a> &raquo;</li>
+        
+      <li>aics_transfer_function.options.base_options</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for aics_transfer_function.options.base_options</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">git</span>
+<span class="kn">from</span> <span class="nn">munch</span> <span class="kn">import</span> <span class="n">Munch</span>
+
+<span class="kn">from</span> <span class="nn">aics_transfer_function.util.quilt_utils</span> <span class="kn">import</span> <span class="n">QuiltModelZoo</span>
+
+
+<div class="viewcode-block" id="BaseOptions"><a class="viewcode-back" href="../../../aics_transfer_function.options.html#aics_transfer_function.options.base_options.BaseOptions">[docs]</a><span class="k">class</span> <span class="nc">BaseOptions</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class defines options used during both training and test time.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_file</span><span class="p">,</span> <span class="n">running_mode</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">running_mode</span> <span class="o">=</span> <span class="n">running_mode</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config_file</span> <span class="o">=</span> <span class="n">config_file</span>
+
+<div class="viewcode-block" id="BaseOptions.get_job_name"><a class="viewcode-back" href="../../../aics_transfer_function.options.html#aics_transfer_function.options.base_options.BaseOptions.get_job_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_job_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;TF&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate a unique name for this training experiment</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+<span class="sd">        name: str</span>
+<span class="sd">            the name of your experiment, e.g. 20xto100x, 100xtoSR, etc.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -----------</span>
+<span class="sd">        fullname: str</span>
+<span class="sd">            the full job name in the format of</span>
+<span class="sd">            jobname_gitSHA_time</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%m</span><span class="si">%d</span><span class="s2">_%H%M&quot;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">repo</span> <span class="o">=</span> <span class="n">git</span><span class="o">.</span><span class="n">Repo</span><span class="p">(</span><span class="n">search_parent_directories</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">gitsha</span> <span class="o">=</span> <span class="p">(</span><span class="n">repo</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">hexsha</span><span class="p">)[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">gitsha</span> <span class="o">=</span> <span class="s2">&quot;NoGitSHA&quot;</span>
+
+        <span class="n">fullname</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">gitsha</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">time</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="n">fullname</span></div>
+
+<div class="viewcode-block" id="BaseOptions.print_options"><a class="viewcode-back" href="../../../aics_transfer_function.options.html#aics_transfer_function.options.base_options.BaseOptions.print_options">[docs]</a>    <span class="k">def</span> <span class="nf">print_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">opt</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print options</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">----------------- Options ---------------</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="n">message</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">message</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">----------------- End -------------------</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BaseOptions.parse"><a class="viewcode-back" href="../../../aics_transfer_function.options.html#aics_transfer_function.options.base_options.BaseOptions.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_dir</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;./&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        parse the option arguments and fill with default values when missing</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># check if the configuration is local or needs to be pulled from quilt</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_file</span><span class="p">):</span>
+            <span class="c1"># pull from quilt</span>
+            <span class="n">config_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">local_dir</span><span class="p">)</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config_file</span><span class="si">}</span><span class="s2">.yaml&quot;</span>
+            <span class="n">zoo_client</span> <span class="o">=</span> <span class="n">QuiltModelZoo</span><span class="p">()</span>
+            <span class="n">zoo_client</span><span class="o">.</span><span class="n">download_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_file</span><span class="p">,</span> <span class="n">config_path</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">config_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_file</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">stream</span><span class="p">:</span>
+            <span class="n">opt_dict</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
+
+        <span class="c1"># convert dictionary to attribute-like object</span>
+        <span class="n">opt</span> <span class="o">=</span> <span class="n">Munch</span><span class="p">(</span><span class="n">opt_dict</span><span class="p">)</span>
+
+        <span class="c1"># validate the existence of the model</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">load_trained_model</span><span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">]):</span>
+            <span class="n">model_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">local_dir</span><span class="p">)</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_file</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;latest.pth&quot;</span>
+            <span class="n">zoo_client</span><span class="o">.</span><span class="n">download_model</span><span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">load_trained_model</span><span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">],</span> <span class="n">model_path</span><span class="p">)</span>
+            <span class="n">opt</span><span class="o">.</span><span class="n">load_trained_model</span><span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span>
+
+        <span class="c1"># load and validation training config</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">running_mode</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;train&quot;</span><span class="p">:</span>
+            <span class="n">opt</span><span class="o">.</span><span class="n">isTrain</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="c1"># create a unique job name for this run</span>
+            <span class="n">job_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_job_name</span><span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+            <span class="c1"># create the job directory under the result folder</span>
+            <span class="n">opt</span><span class="o">.</span><span class="n">resultroot</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">save</span><span class="p">[</span><span class="s2">&quot;results_folder&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="n">job_name</span><span class="p">)</span>
+            <span class="n">opt</span><span class="o">.</span><span class="n">checkpoints_dir</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">resultroot</span> <span class="o">/</span> <span class="s2">&quot;checkpoints&quot;</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">resultroot</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">checkpoints_dir</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">opt</span><span class="o">.</span><span class="n">save</span><span class="p">[</span><span class="s2">&quot;save_training_inspections&quot;</span><span class="p">]:</span>
+                <span class="n">opt</span><span class="o">.</span><span class="n">sample_dir</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">resultroot</span> <span class="o">/</span> <span class="s2">&quot;samples&quot;</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">sample_dir</span><span class="p">)</span>
+
+            <span class="c1"># copy the config file into the job directory</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="n">opt</span><span class="o">.</span><span class="n">resultroot</span><span class="p">)</span>
+
+            <span class="c1"># default vaue for train_num</span>
+            <span class="n">opt</span><span class="o">.</span><span class="n">training_setting</span><span class="p">[</span><span class="s2">&quot;train_num&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+            <span class="c1"># TODO: check AA code</span>
+            <span class="n">opt</span><span class="o">.</span><span class="n">offsetlogpath</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">resultroot</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;offsets.log&quot;</span><span class="p">)</span>
+
+            <span class="c1"># determine how to resize source image</span>
+            <span class="n">opt</span><span class="o">.</span><span class="n">resizeA</span> <span class="o">=</span> <span class="s2">&quot;toB&quot;</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">running_mode</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;validation&quot;</span><span class="p">:</span>
+            <span class="n">opt</span><span class="o">.</span><span class="n">isTrain</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="c1"># check output folder exists</span>
+            <span class="n">opt</span><span class="o">.</span><span class="n">output_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">datapath</span><span class="p">[</span><span class="s2">&quot;prediction&quot;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">opt</span><span class="o">.</span><span class="n">output_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="n">opt</span><span class="o">.</span><span class="n">output_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="c1"># copy the config file into the prediction directory</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="n">opt</span><span class="o">.</span><span class="n">output_path</span><span class="p">)</span>
+
+            <span class="c1"># determine how to resize source image</span>
+            <span class="n">opt</span><span class="o">.</span><span class="n">resizeA</span> <span class="o">=</span> <span class="s2">&quot;toB&quot;</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">running_mode</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;inference&quot;</span><span class="p">:</span>
+            <span class="n">opt</span><span class="o">.</span><span class="n">isTrain</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="c1"># check output folder exists</span>
+            <span class="n">opt</span><span class="o">.</span><span class="n">output_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">datapath</span><span class="p">[</span><span class="s2">&quot;prediction&quot;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">opt</span><span class="o">.</span><span class="n">output_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="n">opt</span><span class="o">.</span><span class="n">output_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="c1"># copy the config file into the prediction directory</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="n">opt</span><span class="o">.</span><span class="n">output_path</span><span class="p">)</span>
+
+            <span class="c1"># determine how to resize source image</span>
+            <span class="n">opt</span><span class="o">.</span><span class="n">resizeA</span> <span class="o">=</span> <span class="s2">&quot;ratio&quot;</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;mode name errir&quot;</span><span class="p">)</span>
+
+        <span class="c1"># check validity of parameters and filing default values</span>
+        <span class="c1"># TODO: add all checks on required parameters</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">network</span><span class="p">[</span><span class="s2">&quot;input_patch_size&quot;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">3</span>
+
+        <span class="n">opt</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">running_mode</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">print_options</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">opt</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Jianxu Chen
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+aics\_transfer\_function package
+================================
+
+Subpackages
+-----------
+
+.. toctree::
+
+   aics_transfer_function.bin
+   aics_transfer_function.dataloader
+   aics_transfer_function.models
+   aics_transfer_function.options
+   aics_transfer_function.util
+
+Submodules
+----------
+
+aics\_transfer\_function.proj\_tester module
+--------------------------------------------
+
+.. automodule:: aics_transfer_function.proj_tester
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+aics\_transfer\_function.proj\_trainer module
+---------------------------------------------
+
+.. automodule:: aics_transfer_function.proj_trainer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: aics_transfer_function
+   :members:
+   :undoc-members:
+   :show-inheritance:
