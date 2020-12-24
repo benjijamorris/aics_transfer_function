@@ -197,11 +197,38 @@
 </div>
 <div class="section" id="aics-transfer-function">
 <h1>AICS Transfer Function<a class="headerlink" href="#aics-transfer-function" title="Permalink to this headline">¶</a></h1>
-<a class="reference external image-reference" href="https://github.com/AllenCell/aics_transfer_function/actions"><img alt="Build Status" src="https://github.com/aics-int/aics_transfer_function/workflows/Build%20Master/badge.svg" /></a>
-<a class="reference external image-reference" href="https://AllenCell.github.io/aics_transfer_function"><img alt="Documentation" src="https://github.com/aics-int/aics_transfer_function/workflows/Documentation/badge.svg" /></a>
-<a class="reference external image-reference" href="https://codecov.io/gh/AllenCell/aics_transfer_function"><img alt="Code Coverage" src="https://codecov.io/gh/aics-int/aics_transfer_function/branch/main/graph/badge.svg" /></a>
+<a class="reference external image-reference" href="https://github.com/AllenCell/aics_transfer_function/actions"><img alt="Build Status" src="https://github.com/AllenCell/aics_transfer_function/workflows/Build%20Master/badge.svg" /></a>
+<a class="reference external image-reference" href="https://AllenCell.github.io/aics_transfer_function"><img alt="Documentation" src="https://github.com/AllenCell/aics_transfer_function/workflows/Documentation/badge.svg" /></a>
+<a class="reference external image-reference" href="https://codecov.io/gh/AllenCell/aics_transfer_function"><img alt="Code Coverage" src="https://codecov.io/gh/AllenCell/aics_transfer_function/branch/main/graph/badge.svg" /></a>
 <p>Python package for building 3d computational transfer function models for light microscopy images</p>
 <hr class="docutils" />
+<div class="section" id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+<p>To build a transfer function from a source domain (e.g., low resolution images) to a target domain (e.g., high resolution images), we assume the training data (pairs of images in both source and target domains) are prepared by the registration step (see: <a class="reference external" href="https://github.com/AllenCell/aics_tf_registration">https://github.com/AllenCell/aics_tf_registration</a>). After that, there are 3 main steps: (1) calculating intensity normalization parameters. (2) training , (3) testing</p>
+<ol class="arabic simple">
+<li><p>intensity normalization parameter</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python scripts/pre_process_calc.py --source_domain /path/to/source/domain/data --target_domain /path/to/target/domain/data
+</pre></div>
+</div>
+<p>parameters will be printed out on command line screen.</p>
+<ol class="arabic simple" start="2">
+<li><p>training</p></li>
+</ol>
+<p>Take the intensity normalization parameters calculated in step 1 and prepare a training configuration file (<a class="reference external" href="https://github.com/AllenCell/aics_transfer_function/blob/main/aics_transfer_function/config/transfer_function_training_example.yaml">Example</a>). Mostly, just updating the normalization parameters, data paths, model save path, experiment names, etc. Then</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>TF_run --config /path/to/training/config.yaml --model train
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>testing</p></li>
+</ol>
+<p>The testing step can be done in three different ways:</p>
+<ul class="simple">
+<li><p>validation: both source domain images and target domain images (ground truth) are available. This can be used to validate the model performance. <a class="reference external" href="https://github.com/AllenCell/aics_transfer_function/blob/main/aics_transfer_function/config/transfer_function_validation_example.yaml">Example configuration file</a> Then, <code class="docutils literal notranslate"><span class="pre">TF_run</span> <span class="pre">--config</span> <span class="pre">/path/to/validation/config.yaml</span> <span class="pre">--model</span> <span class="pre">validation</span></code></p></li>
+<li><p>inference: only source domain images are available. This is used to make predictions on new data. <a class="reference external" href="https://github.com/AllenCell/aics_transfer_function/blob/main/aics_transfer_function/config/transfer_function_inference_example.yaml">Exmaple configuration file</a>. Then, <code class="docutils literal notranslate"><span class="pre">TF_run</span> <span class="pre">--config</span> <span class="pre">/path/to/inference/config.yaml</span> <span class="pre">--model</span> <span class="pre">inference</span></code></p></li>
+<li><p>API for applying transfer function on numpy array: This is useful when you want to use transfer function as part of your big workflow. <a class="reference external" href="https://github.com/AllenCell/aics_transfer_function/blob/main/playbook/apply_tf_on_numpy_array.ipynb">Demo Jupyter Notebook</a></p></li>
+</ul>
+</div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p><strong>Stable Release:</strong> <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">aics_transfer_function</span></code><span class="raw-html-m2r"><br></span>
@@ -210,6 +237,10 @@
 <div class="section" id="documentation">
 <h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
 <p>For full package documentation please visit <a class="reference external" href="https://AllenCell.github.io/aics_transfer_function">AllenCell.github.io/aics_transfer_function</a>.</p>
+</div>
+<div class="section" id="development">
+<h2>Development<a class="headerlink" href="#development" title="Permalink to this headline">¶</a></h2>
+<p>See <a class="reference external" href="CONTRIBUTING.md">CONTRIBUTING.md</a> for information related to developing the code.</p>
 <p>The implementation of this repo was partially inspired by <a class="reference external" href="https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix">https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix</a>. A few core functions were reused.</p>
 <p><a href="#id1"><span class="problematic" id="id2">**</span></a><em>Free software: Allen Institute Software License</em>**</p>
 </div>
