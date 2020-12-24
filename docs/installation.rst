@@ -32,13 +32,13 @@ You can either clone the public repository:
 
 .. code-block:: console
 
-    $ git clone git://github.com/aics-int/aics_transfer_function
+    $ git clone git://github.com/AllenCell/aics_transfer_function
 
 Or download the `tarball`_:
 
 .. code-block:: console
 
-    $ curl  -OL https://github.com/aics-int/aics_transfer_function/tarball/main
+    $ curl  -OL https://github.com/AllenCell/aics_transfer_function/tarball/main
 
 Once you have a copy of the source, you can install it with:
 
@@ -47,5 +47,5 @@ Once you have a copy of the source, you can install it with:
     $ python setup.py install
 
 
-.. _Github repo: https://github.com/aics-int/aics_transfer_function
-.. _tarball: https://github.com/aics-int/aics_transfer_function/tarball/main
+.. _Github repo: https://github.com/AllenCell/aics_transfer_function
+.. _tarball: https://github.com/AllenCell/aics_transfer_function/tarball/main

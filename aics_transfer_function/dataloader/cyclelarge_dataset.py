@@ -8,7 +8,7 @@ from torch import from_numpy
 import torch.nn.functional as F
 from torch.utils.data import Dataset
 from sklearn.utils import shuffle
-from aicsimageio import AICSImage
+from aicsimageio import imread
 from aicsimageprocessing import resize_to
 from tqdm import tqdm
 
@@ -211,8 +211,9 @@ class cyclelargeDataset(Dataset):
                 break
 
             # load source domain image
-            source_reader = AICSImage(fnA)  # STCZYX
-            src_img = source_reader.get_image_data("ZYX", S=0, T=0, C=0)
+            # source_reader = AICSImage(fnA)  # STCZYX
+            # src_img = source_reader.get_image_data("ZYX", S=0, T=0, C=0)
+            src_img = np.squeeze(imread(fnA))
 
             # run intensity normalization
             src_img = self.source_norm(src_img, bulk_params=self.source_norm_param)
@@ -222,8 +223,9 @@ class cyclelargeDataset(Dataset):
                 fnB = filenamesB[idxB]
 
                 # load target domain image
-                target_reader = AICSImage(fnB)  # STCZYX
-                tar_img = target_reader.get_image_data("ZYX", S=0, T=0, C=0)
+                # target_reader = AICSImage(fnB)  # STCZYX
+                # tar_img = target_reader.get_image_data("ZYX", S=0, T=0, C=0)
+                tar_img = np.squeeze(imread(fnB))
 
                 # run intensity normalization
                 tar_img = self.target_norm(tar_img, bulk_params=self.target_norm_param)

@@ -94,7 +94,7 @@ setup(
     test_suite="aics_transfer_function/tests",
     tests_require=test_requirements,
     extras_require=extra_requirements,
-    url="https://github.com/aics-int/aics_transfer_function",
+    url="https://github.com/AllenCell/aics_transfer_function",
     # Do not edit this string manually, always use bumpversion
     # Details in CONTRIBUTING.rst
     version="0.1.0",

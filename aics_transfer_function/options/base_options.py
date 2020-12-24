@@ -76,11 +76,12 @@ class BaseOptions:
         # convert dictionary to attribute-like object
         opt = Munch(opt_dict)
 
-        # validate the existence of the model
-        if not os.path.exists(opt.load_trained_model["path"]):
-            model_path = Path(local_dir) / Path(self.config_file) / "latest.pth"
-            zoo_client.download_model(opt.load_trained_model["path"], model_path)
-            opt.load_trained_model["path"] = str(model_path)
+        if self.running_mode.lower() != "train":
+            # validate the existence of the model
+            if not os.path.exists(opt.load_trained_model["path"]):
+                model_path = Path(local_dir) / Path(self.config_file) / "latest.pth"
+                zoo_client.download_model(opt.load_trained_model["path"], model_path)
+                opt.load_trained_model["path"] = str(model_path)
 
         # load and validation training config
         if self.running_mode.lower() == "train":
