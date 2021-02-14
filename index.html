@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Welcome to AICS Transfer Function’s documentation! &mdash; AICS Transfer Function 0.1.0 documentation</title>
   
@@ -16,7 +16,10 @@
 
   
   
+
   
+  
+
   
 
   
@@ -51,7 +54,7 @@
           
 
           
-            <a href="#" class="icon icon-home" alt="Documentation Home"> AICS Transfer Function
+            <a href="#" class="icon icon-home"> AICS Transfer Function
           
 
           
@@ -158,6 +161,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -169,7 +174,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -180,7 +185,7 @@
   
   <div class="rst-breadcrumbs-buttons" role="navigation" aria-label="breadcrumb navigation">
       
-        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
       
       
   </div>
@@ -204,7 +209,7 @@
 <hr class="docutils" />
 <div class="section" id="quick-start">
 <h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
-<p>To build a transfer function from a source domain (e.g., low resolution images) to a target domain (e.g., high resolution images), we assume the training data (pairs of images in both source and target domains) are prepared by the registration step (see: <a class="reference external" href="https://github.com/AllenCell/aics_tf_registration">https://github.com/AllenCell/aics_tf_registration</a>). After that, there are 3 main steps: (1) calculating intensity normalization parameters. (2) training , (3) testing</p>
+<p>To build a transfer function from a source domain (e.g., low resolution images) to a target domain (e.g., high resolution images), we assume the training data (pairs of images in both source and target domains) are prepared by the registration step (see: <a class="reference external" href="https://github.com/AllenCell/aics_tf_registration">https://github.com/AllenCell/aics_tf_registration</a>). After that, there are three main steps: (1) calculating intensity normalization parameters. (2) training , (3) testing</p>
 <ol class="arabic simple">
 <li><p>intensity normalization parameter</p></li>
 </ol>
@@ -228,6 +233,11 @@
 <li><p>inference: only source domain images are available. This is used to make predictions on new data. <a class="reference external" href="https://github.com/AllenCell/aics_transfer_function/blob/main/aics_transfer_function/config/transfer_function_inference_example.yaml">Exmaple configuration file</a>. Then, <code class="docutils literal notranslate"><span class="pre">TF_run</span> <span class="pre">--config</span> <span class="pre">/path/to/inference/config.yaml</span> <span class="pre">--model</span> <span class="pre">inference</span></code></p></li>
 <li><p>API for applying transfer function on numpy array: This is useful when you want to use transfer function as part of your big workflow. <a class="reference external" href="https://github.com/AllenCell/aics_transfer_function/blob/main/playbook/apply_tf_on_numpy_array.ipynb">Demo Jupyter Notebook</a></p></li>
 </ul>
+<p><strong>Note about parameters in configuration yaml file</strong>
+In general, only the <code class="docutils literal notranslate"><span class="pre">datapath</span></code> and <code class="docutils literal notranslate"><span class="pre">normalization</span></code> sections need to change, no matter for training or testing.
+<em>``datapath``: the directory of source domain images and target domain images (no target when doing inference), as well as the directory to save prediction (only when testing)</em><code class="docutils literal notranslate"><span class="pre">normalization</span></code>: Only <code class="docutils literal notranslate"><span class="pre">simple_norm</span></code> using <code class="docutils literal notranslate"><span class="pre">middle_otsu</span></code> is supported currently. <code class="docutils literal notranslate"><span class="pre">simple_norm</span></code> refers intensity normalization by rescaling the intensity into <code class="docutils literal notranslate"><span class="pre">[m</span> <span class="pre">-</span> <span class="pre">a</span> <span class="pre">*</span> <span class="pre">s,</span> <span class="pre">m</span> <span class="pre">+</span> <span class="pre">b</span> <span class="pre">*</span> <span class="pre">s]</span></code>, where <code class="docutils literal notranslate"><span class="pre">m</span></code> and <code class="docutils literal notranslate"><span class="pre">s</span></code> are mean intensity and standard deviation of all “valid” voxels. Here, “valid” voxels are the middle chunk of the image stack, where the middle chunk is estimated by applying Otsu thresholding to roughly identify where the signals are. By doing this, we could reduce the impact of empty z-slices near the bottom and top of the stack. This is also where the name <code class="docutils literal notranslate"><span class="pre">middle_otsu</span></code> comes from.</p>
+<p>Besides above two, there one section (called <code class="docutils literal notranslate"><span class="pre">save</span></code>) specific to training. Users can specify where to save the model (<code class="docutils literal notranslate"><span class="pre">results_folder</span></code>) and whether to save example predictions periodically (<code class="docutils literal notranslate"><span class="pre">save_training_inspections</span></code>), if so, how frequent to save (<code class="docutils literal notranslate"><span class="pre">print_freq</span></code>). Also, it is recommeded to set <code class="docutils literal notranslate"><span class="pre">save_latest_freq</span></code> (how frequent to save the model) the same as <code class="docutils literal notranslate"><span class="pre">print_freq</span></code>, so that the example prediction you observe matches the checkpoints being saved.</p>
+<p>One last important parameter is <code class="docutils literal notranslate"><span class="pre">path</span></code> under <code class="docutils literal notranslate"><span class="pre">load_trained_model</span></code> section. If this is used in training, it means the training will use this model as the initial model. If this is used in testing, it is the path to the model you want to apply.</p>
 </div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
@@ -259,28 +269,25 @@
            
           </div>
           <footer>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2020, Jianxu Chen
+        &#169; Copyright 2020, Jianxu Chen.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
