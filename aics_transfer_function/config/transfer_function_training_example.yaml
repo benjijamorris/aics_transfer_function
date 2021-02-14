@@ -41,7 +41,7 @@ network:
 
 training_setting:
   imgs_per_epoch    : -1      # how many images to use? -1 means all
-  patches_per_epoch : 50    # a positive integer or -1 (all overlapping patches), 1500 
+  patches_per_epoch : 50      # a positive integer or -1 (all overlapping patches), 1500 
   niter             : 100     # number of iter using the starting learning rate
   niter_decay       : 500     # number of iter to linearly decay learning rate to zero
   beta1             : 0.5     # momentum term of adam')
@@ -53,6 +53,6 @@ training_setting:
 save:
   results_folder    : /allen/aics/assay-dev/users/Jianxu/data/TF_demo_test/    #models are saved here
   save_training_inspections: True # Save real A,B and fake images for every print_freq
-  save_latest_freq  : 4000 # frequency of saving the latest results')
+  save_latest_freq  : 5000 # frequency of saving the latest results')
   save_epoch_freq   : 5 # frequency of saving checkpoints at the end of epochs')
-  print_freq        : 50  # frequency of showing training results on console
+  print_freq        : 5000  # frequency of showing training results on console
