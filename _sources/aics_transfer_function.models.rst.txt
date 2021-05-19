@@ -28,6 +28,14 @@ aics\_transfer\_function.models.pix2pix\_model module
    :undoc-members:
    :show-inheritance:
 
+aics\_transfer\_function.models.stn\_model module
+-------------------------------------------------
+
+.. automodule:: aics_transfer_function.models.stn_model
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 
 Module contents
 ---------------
