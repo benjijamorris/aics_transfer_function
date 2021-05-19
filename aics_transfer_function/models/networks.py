@@ -292,23 +292,6 @@ def define_S(
     return init_net(net, init_type, init_gain)
 
 
-# def shift(tensor,offsets_zyx,device=None):
-#     '''
-#     dz>0: stack goes up (-z:-1)=padding
-#     dy>0: goes up; dx>0: goes right
-#     '''
-#     assert len(tensor.shape) == 5
-#     dz,dy,dx = offsets_zyx.type(torch.float32)
-#     nz,ny,nx = tensor.shape[2:]
-#     z_linspace = torch.linspace(-1,1,steps=nz,device=device)+dz*2.0/nz
-#     y_linspace = torch.linspace(-1,1,steps=ny,device=device)+dy*2.0/ny
-#     x_linspace = torch.linspace(-1,1,steps=nx,device=device)+dx*2.0/nx
-#     z_grid, y_grid, x_grid = torch.meshgrid(z_linspace, y_linspace, x_linspace)
-#     grid = torch.cat([x_grid.unsqueeze(-1), y_grid.unsqueeze(-1), \
-#            z_grid.unsqueeze(-1)], dim=-1).unsqueeze(0)
-#     return F.grid_sample(tensor, grid,padding_mode='reflection')
-
-
 class FindOffsets(nn.Module):
     """Defines a PatchGAN discriminator"""
 

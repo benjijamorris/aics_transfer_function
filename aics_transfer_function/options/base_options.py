@@ -105,7 +105,7 @@ class BaseOptions:
             # default vaue for train_num
             opt.training_setting["train_num"] = -1
 
-            # TODO: check AA code
+            # path to load offset from stage 1 of Auto-Alignment module
             opt.offsetlogpath = opt.resultroot / Path("offsets.log")
 
             # determine how to resize source image

@@ -17,7 +17,7 @@ normalization:
     params: ("middle_otsu", 1.0, 19.5)
 
 load_trained_model:
-  path        : /allen/aics/assay-dev/computational/data/transfer_function_paper/FBL_20x_100x/models/paper_fbl_20to100_899e_1228_1535/checkpoints
+  path        : /allen/aics/assay-dev/computational/data/transfer_function_paper/AA_test/models/20to100_dfed_0324_1252/checkpoints
   epoch       : latest # which epoch to load? set to latest to use latest cached model
   load_iter   : -1             # which iteration to load? if load_iter > 0, the code will load models by iter_[load_iter]; otherwise, the code will load models by [epoch]
 
@@ -57,6 +57,7 @@ save:
   save_epoch_freq   : 5 # frequency of saving checkpoints at the end of epochs')
   print_freq        : 50  # frequency of showing training results on console
 
+
 ###########################################
 # settings for Auto-Alignment module
 ###########################################
@@ -68,8 +69,9 @@ stn_apply_threshold       : False
 stn_fix_stn_model         : True        # default: False (jointly train GAN and STN)
 stn_lambda_reg            : 0.1         # default: 0.1
 
-
-# Settings only for stage 1:
-stn_adjust_fixed_z        : False
-stn_first_stage           : 11111         # number of digits "1" is the number of epochs for pretraining *GAN* model 
-stn_loop_stage            : 12            # "2" for an epoch training *AutoALign* module. For this case, the training epoches are : 1,1,1,1,1,1,1,2,1,2,1,2,1,2... 
+# Settings only for stage 2:
+stn_first_stage           : 1
+stn_loop_stage            : 1 
+stn_adjust_fixed_z        : True
+readoffsetfrom            : /allen/aics/assay-dev/computational/data/transfer_function_paper/AA_test/models/20to100_dfed_0324_1252/offsets.log
+align_all_axis            : True   # True if you want to align z,y,x axis. False if only align z axis.

@@ -44,6 +44,17 @@ Besides above two, there one section (called `save`) specific to training. Users
 
 One last important parameter is `path` under `load_trained_model` section. If this is used in training, it means the training will use this model as the initial model. If this is used in testing, it is the path to the model you want to apply. 
 
+(4) Auto-Alignment module
+
+The Auto-Alignment (AA) module is an optional training step designed to improve the model performance when we know the training pairs are prone to mis-alignment. To use the AA module, we assume a regular trianing, see section (2) above, has finished and the trained model is saved at `/path/to/basic/model`. The AA module has two stages: estimating mis-alignment, and fine-tuning the model after adjusting the training data with estimated mis-alignment. 
+
+Stage 1: Update the configuration file ([exmaple](https://github.com/AllenCell/aics_transfer_function/blob/main/aics_transfer_function/config/auto-alignment.yaml)), especially setting `path` (under `load_trained_model`) as `/path/to/basic/model` (i.e., the model trained with regular steps) and using the same normalization parameters, data paths, model saving path as when training the basic model. Notice that `model` becomes `stn`, instead of `pix2pix` and there are also more parameters comparing to regular training. In most cases, these new settings do not need to change. Then, `TF_run --model train --config /path/to/new/AA/config_stage_1.yaml` After training, a new file `offset.log` will be generated in the `results_folder`. 
+
+
+Stage 2: Update the configuration file ([exmaple](https://github.com/AllenCell/aics_transfer_function/blob/main/aics_transfer_function/config/auto-alignment_stage_2.yaml)), especially setting `path` (under `load_trained_model`) as `/path/to/stage_1/model` (i.e., the model from previous training stage), and setting the new parameter `readoffsetfrom` as `/path/to/stage_1/offset.log`, and using the same normalization parameters, data paths, model saving path as before. In most cases, other settings do not need to change. Then, `TF_run --model train --config /path/to/new/AA/config_stage_2.yaml` After training, the new model in `results_folder` can be used for inference.
+
+
+
 ## Installation
 **Stable Release:** `pip install aics_transfer_function`<br>
 **Development Head:** `pip install git+https://github.com/AllenCell/aics_transfer_function.git`

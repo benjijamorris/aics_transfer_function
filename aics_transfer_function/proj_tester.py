@@ -10,7 +10,7 @@ from .util.misc import get_filenames
 
 
 def extract_filename(filename, replace=False, old_name="", rep_name=""):
-    """ extract the base name and reuse for output """
+    """extract the base name and reuse for output"""
 
     filename_rev = filename[::-1]
     idx = filename_rev.index("/")
@@ -21,7 +21,7 @@ def extract_filename(filename, replace=False, old_name="", rep_name=""):
 
 
 def arrange(opt, data, output, position):
-    """ take care of the sliding window application of the model """
+    """take care of the sliding window application of the model"""
 
     data = data[0, 0].cpu().numpy()
     za, ya, xa = position
@@ -129,15 +129,10 @@ class ProjectTester(object):
             for i, data in enumerate(dataset):
                 self.model.set_input(data)  # unpack data from data loader
 
-                if self.opt.network["model"] == "pix2pix":
-                    rA_i, rB_i, fB_i = self.model.test()
-                    arrange(self.opt, rA_i, rA, position[i + 1])
-                    arrange(self.opt, rB_i, rB, position[i + 1])
-                    arrange(self.opt, fB_i, fB, position[i + 1])
-                elif self.opt.network["model"] == "stn":  # TODO: check AA code
-                    rA_i, rB_i, fB0_i, fB_i = self.model.test()
-                    arrange(self.opt, rA_i, rA, position[i + 1])
-                    arrange(self.opt, fB_i, fB, position[i + 1])
+                rA_i, rB_i, fB_i = self.model.test()
+                arrange(self.opt, rA_i, rA, position[i + 1])
+                arrange(self.opt, rB_i, rB, position[i + 1])
+                arrange(self.opt, fB_i, fB, position[i + 1])
 
             if single_test_image is not None:
                 return fB
@@ -157,12 +152,17 @@ class ProjectTester(object):
 
     def run_validation(self):
 
+        from skimage.metrics import structural_similarity as ssim
+        import pandas as pd
+
         filenamesA, filenamesB = get_filenames(
             self.opt.datapath["source"], self.opt.datapath["target"]
         )
         dataset = cyclelargeDataset(self.opt, aligned=True)
 
         self.opt.size_out = dataset.get_size_out()
+
+        val_report = []
 
         for fileA, fileB in zip(filenamesA, filenamesB):
             dataset.load_from_file(
@@ -178,25 +178,14 @@ class ProjectTester(object):
             rA = np.zeros(positionA[0]).astype("float32")
             rB = np.zeros(position[0]).astype("float32")
             fB = np.zeros(position[0]).astype("float32")
-            fB0 = np.zeros(position[0]).astype("float32")
 
-            # print(position)
             for i, data in enumerate(dataset):
                 self.model.set_input(data)  # unpack data from data loader
 
-                if self.opt.network["model"] == "pix2pix":
-                    rA_i, rB_i, fB_i = self.model.test()
-                    # psnr_list.append(psnr.psnr_local(rB_i[0,0].cpu().numpy(),fB_i[0,0].cpu().numpy()))
-                    arrange(self.opt, rA_i, rA, positionA[i + 1])
-                    arrange(self.opt, rB_i, rB, position[i + 1])
-                    arrange(self.opt, fB_i, fB, position[i + 1])
-                elif self.opt.network["model"] == "stn":  # TODO: check AA code
-                    rA_i, rB_i, fB0_i, fB_i = self.model.test()
-                    # psnr_list.append(psnr.psnr_local(rB_i[0,0].cpu().numpy(),fB0_i[0,0].cpu().numpy()))
-                    arrange(self.opt, rA_i, rA, positionA[i + 1])
-                    arrange(self.opt, rB_i, rB, position[i + 1])
-                    arrange(self.opt, fB0_i, fB0, position[i + 1])
-                    arrange(self.opt, fB_i, fB, position[i + 1])
+                rA_i, rB_i, fB_i = self.model.test()
+                arrange(self.opt, rA_i, rA, positionA[i + 1])
+                arrange(self.opt, rB_i, rB, position[i + 1])
+                arrange(self.opt, fB_i, fB, position[i + 1])
 
             ###########################################################################
             # Temp saving script
@@ -208,3 +197,16 @@ class ProjectTester(object):
             tif.close()
             print(filename_ori + " saved")
             ###########################################################################
+
+            # calculate pearson correliation and ssim
+            corr_mat = np.corrcoef(np.ravel(rB), np.ravel(fB))
+            corr_value = corr_mat[1, 0]
+
+            ssim_value = ssim(rB, fB, data_range=fB.max() - fB.min())
+
+            val_report.append(
+                {"name": filename_ori, "corr": corr_value, "ssim": ssim_value}
+            )
+
+        val_df = pd.DataFrame(val_report)
+        val_df.to_csv(self.opt.output_path / "val_report.csv")

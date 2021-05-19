@@ -51,6 +51,7 @@ requirements = [
     'aicsimageprocessing',
     'munch',
     'quilt3',
+    'pandas',
 ]
 
 extra_requirements = {

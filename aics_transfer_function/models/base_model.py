@@ -109,7 +109,7 @@ class BaseModel(ABC):
         pass
 
     def get_image_paths(self):
-        """ Return image paths that are used to load current data"""
+        """Return image paths that are used to load current data"""
         return self.image_paths
 
     def update_learning_rate(self):
@@ -147,9 +147,10 @@ class BaseModel(ABC):
             if isinstance(name, str):
                 try:
                     errors_ret[name] = float(getattr(self, "loss_" + name))
-                except Exception as e:
-                    print(e)
-                    errors_ret[name] = 0
+                except Exception:
+                    # this specific loss term is not used, just pass
+                    pass
+                    # errors_ret[name] = 0
         return errors_ret
 
     def save_networks(self, epoch):

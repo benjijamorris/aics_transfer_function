@@ -7,10 +7,10 @@ import torch
 from torch import from_numpy
 import torch.nn.functional as F
 from torch.utils.data import Dataset
-from sklearn.utils import shuffle
 from aicsimageio import imread
 from aicsimageprocessing import resize_to
 from tqdm import tqdm
+from tifffile import imsave
 
 
 class cyclelargeDataset(Dataset):
@@ -34,8 +34,7 @@ class cyclelargeDataset(Dataset):
         self.model = opt.network["model"]
         self.shift_dict = {}
 
-        # TODO: check AA code
-        # similar to shift_dict, only for stn opt.stn_adjust_image use
+        # only for stn and when opt.stn_adjust_image use
         self.stn_adjust_dict = {}
 
         self.up_scale = (1, 1, 1)
@@ -61,7 +60,6 @@ class cyclelargeDataset(Dataset):
 
         self.filenamesA = ["array"]
 
-        # TODO: check AA code
         # True if this patch is to be used for calculating mean offset for AutoAlign
         self.for_calc_ave_offset = []
 
@@ -145,18 +143,14 @@ class cyclelargeDataset(Dataset):
                     self.num_patch_per_img[: (num_patch - basic_num * num_data)] + 1
                 )
 
-        # TODO: to be cleaned, this is reserved for cycle gan
-        if (not self.aligned) and (not Stitch):
-            shuffle(filenamesA)
-            shuffle(filenamesB)
         self.filenamesA = filenamesA
         self.filenamesB = filenamesB
 
-        # TODO: check AA code
-        # True if this patch is to be used for calculating mean offset for AutoAlign
+        # for_calc_ave_offset is used to flag if a patch is to be used for
+        # calculating mean offset for AutoAlign
         self.for_calc_ave_offset = []
 
-        if self.opt.network == "stn" and self.opt.network["stn_adjust_fixed_z"]:
+        if self.opt.network["model"] == "stn" and self.opt.stn_adjust_fixed_z:
             print(f"read offsets from {self.opt.readoffsetfrom}")
             assert os.path.isfile(
                 self.opt.readoffsetfrom
@@ -196,7 +190,7 @@ class cyclelargeDataset(Dataset):
                             f"WARNING: The standard deviation of offsets estimation\
                              for {key} is {z_std}. Not accurate!"
                         )
-                        with open(self.opt.resultroot + "WARNING", "w") as wp:
+                        with open(self.opt.resultroot / "WARNING", "w") as wp:
                             wp.write(
                                 f"WARNING: The standard deviation of offsets \
                                 estimation for {key} is {z_std}. Not accurate!"
@@ -242,55 +236,61 @@ class cyclelargeDataset(Dataset):
 
             src_img = resize_to(src_img, new_size, method="bilinear")
 
-            # TODO: check AA code
-            """
-            if (self.opt.network["model"] in ['stn'] and self.opt.stn_adjust_image):
+            if self.opt.network["model"] in ["stn"] and self.opt.stn_adjust_image:
                 if self.opt.isTrain:
-                    shifted_stacks_dir = self.opt.resultroot + '/shift/'
+                    shifted_stacks_dir = self.opt.resultroot + "/shift/"
                     if not os.path.isdir(shifted_stacks_dir):
                         os.makedirs(shifted_stacks_dir)
                     if fnnA in self.stn_adjust_dict:
-                        imsave(shifted_stacks_dir + f'{fnnA}_rA.tiff', src_img[0])
+                        imsave(shifted_stacks_dir + f"{fnnA}_rA.tiff", src_img[0])
                         print(fnnA, self.stn_adjust_dict[fnnA])
                         offsets_zyx = self.stn_adjust_dict[fnnA]
                         offsets_zyx[0] = offsets_zyx[0] * 1.0 / self.up_scale[0]
                         offsets_zyx[1] = offsets_zyx[1] * 1.0 / self.up_scale[1]
                         offsets_zyx[2] = offsets_zyx[2] * 1.0 / self.up_scale[2]
-                        with open(shifted_stacks_dir + 'shift.log', 'a') as fp:
-                            fp.write(f"{fnnA},{offsets_zyx[0]},{offsets_zyx[1]},\
-                                {offsets_zyx[2]}\n")
+                        with open(shifted_stacks_dir + "shift.log", "a") as fp:
+                            fp.write(
+                                f"{fnnA},{offsets_zyx[0]},{offsets_zyx[1]},\
+                                {offsets_zyx[2]}\n"
+                            )
                         offsets_zyx = from_numpy(offsets_zyx)
-                        tensor = from_numpy(np.expand_dims(src_img, 0))
+                        tensor = from_numpy(
+                            np.expand_dims(np.expand_dims(src_img, 0), 0)
+                        )
                         label = self.apply_adjust(tensor, offsets_zyx)
                         label = np.squeeze(label.detach().cpu().numpy(), axis=0)
-                        imsave(shifted_stacks_dir + f'{fnnA}_rA_new.tiff', src_img[0])
-            elif self.opt.stn_adjust_fixed_z:
+                        imsave(shifted_stacks_dir + f"{fnnA}_rA_new.tiff", label[0])
+            elif self.opt.network["model"] in ["stn"] and self.opt.stn_adjust_fixed_z:
                 if self.opt.isTrain:
-                    print(f'adjust fixed z')
+                    print("adjust fixed z")
                     if fnnA in fixed_dict1:
                         z, y, x = fixed_dict1[fnnA]
                     else:
                         z, y, x = 0, 0, 0
-                        raise ValueError(f"****\n\nERROR: {fnnA} is not found \
+                        raise ValueError(
+                            f"****\n\nERROR: {fnnA} is not found \
                             in {self.opt.readoffsetfrom}, please train the AutoAlign \
-                                first to get the offsets\n\n ***************\n")
-                    # z = fixed_dict1_deprecated[int(fnnA[:3])]
+                                first to get the offsets\n\n ***************\n"
+                        )
+
                     if self.opt.align_all_axis:
-                        offsets_zyx = np.array((z / self.up_scale[0],
-                                                y / self.up_scale[1],
-                                                x / self.up_scale[2]))
+                        offsets_zyx = np.array(
+                            (
+                                z / self.up_scale[0],
+                                y / self.up_scale[1],
+                                x / self.up_scale[2],
+                            )
+                        )
                     else:
                         offsets_zyx = np.array((z / self.up_scale[0], 0, 0))
                     offsets_zyx = from_numpy(offsets_zyx)
-                    tensor = from_numpy(np.expand_dims(src_img, 0))
+                    tensor = from_numpy(np.expand_dims(np.expand_dims(src_img, 0), 0))
                     label = self.apply_adjust(tensor, offsets_zyx)
                     label = np.squeeze(label.detach().cpu().numpy(), axis=0)
                     label = label[:, 1:-1, :, :]
                     tar_img = tar_img[
-                        :, int(self.up_scale[0]):-int(self.up_scale[0]),
-                        :, :
+                        int(self.up_scale[0]) : -int(self.up_scale[0]), :, :
                     ]
-            """
 
             if Stitch:
                 overlap_step = 0.5
@@ -415,8 +415,8 @@ class cyclelargeDataset(Dataset):
         dz>0: stack goes up (-z:-1)=padding
         dy>0: goes up; dx>0: goes right
         """
-        assert len(tensor.shape) == 5
-        self.device = torch.device("cuda:{}".format(self.opt.gpu_ids[0]))
+        assert len(tensor.shape) == 5, f"got tensor shape {tensor.shape}"
+        self.device = torch.device("cuda:0")
         tensor = tensor.to(self.device)
         dz, dy, dx = offsets_zyx.type(torch.float32)
         nz, ny, nx = tensor.shape[2:]

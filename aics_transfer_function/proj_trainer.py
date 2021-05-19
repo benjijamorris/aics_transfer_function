@@ -80,14 +80,18 @@ class ProjectTrainer(object):
         total_iters = 0  # the total number of training iterations
         odd_epoch_flag = True  # T -> F -> T -> F -> T....
 
-        # TODO: check AA code
-        adjust_dict = {}  # for stn adjust_dict
-        epoch_for_stage_index = 0  # for stn adjust_dict
+        # only for Auto-Alignment module
+        adjust_dict = {}
+        epoch_for_stage_index = 0
+
+        # number of epochs
         total_epoch = (
             self.opt.training_setting["niter"]
             + self.opt.training_setting["niter_decay"]
             + 1
         )
+
+        # start training
         for epoch in range(1, total_epoch):
             # outer loop for different epochs;
             # we save the model by <epoch_count>, <epoch_count>+<save_latest_freq>
@@ -96,12 +100,13 @@ class ProjectTrainer(object):
             # the number of training iterations in current epoch, reset to 0 every epoch
             epoch_iter = 0
 
-            print("loading/re-loading data begins ...")
-
-            # TODO: check AA code
             if self.opt.network["model"] in ["stn"]:
+
+                # determine the training strategy
                 self.opt.stn_first_stage = str(self.opt.stn_first_stage)
                 self.opt.stn_loop_stage = str(self.opt.stn_loop_stage)
+
+                # find which which stage this epoch should be
                 if epoch_for_stage_index >= len(self.opt.stn_first_stage):
                     s_id = ((epoch_for_stage_index - len(self.opt.stn_first_stage))) % (
                         len(self.opt.stn_loop_stage)
@@ -114,6 +119,7 @@ class ProjectTrainer(object):
                 # the adjust is based on the previous adjusts. It is a training strategy
                 if self.opt.stn_progressive_adjust:
                     if model.stage == 2:  # the current model stage == 2
+                        # no adjustment is needed when trainign stn
                         adjust_dict = {}
                 else:
                     # the adjusts are independent. It is used to verify the performance
@@ -132,6 +138,8 @@ class ProjectTrainer(object):
                         dataset.stn_adjust_dict = {}
                         adjust_dict = {}
 
+            print("loading/re-loading data begins ...")
+            # get data for this epoch
             idxA = random.sample(
                 range(len(self.filenamesA)), self.opt.training_setting["imgs_per_epoch"]
             )
@@ -156,9 +164,9 @@ class ProjectTrainer(object):
                 # calculate loss functions, get gradients, update network weights
                 model.optimize_parameters()
 
-                # TODO: check AA code
+                # append new adjustment calculated from stn
                 if self.opt.network["model"] in ["stn"]:
-                    if self.opt.model["stn_adjust_image"] and model.stage == 2:
+                    if self.opt.stn_adjust_image and model.stage == 2:
                         fnA = data["A_paths"]
                         shift_zyx = model.get_shift().cpu().detach().numpy()
                         if fnA in adjust_dict:
@@ -167,11 +175,6 @@ class ProjectTrainer(object):
                             adjust_dict[fnA] = [
                                 shift_zyx,
                             ]
-
-                # just a quick sanity check
-                if total_iters == 1:
-                    print(data["A"].shape)
-                    print(data["B"].shape)
 
                 # print the loss
                 losses = model.get_current_losses()
@@ -261,8 +264,7 @@ class ProjectTrainer(object):
             # update learning rates at the end of every epoch.
             model.update_learning_rate()
 
-            # TODO: check AA code
-            # the previous model stage == 2
+            # update adjustment
             if self.opt.network["model"] == "stn" and model.stage in [2, 4]:
                 for fnA in adjust_dict:
                     fnnA = fnA.split("/")[-1]
